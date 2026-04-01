@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_01_190351) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_01_191502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -34,6 +34,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_190351) do
     t.index ["external_id"], name: "index_games_on_external_id", unique: true
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.bigint "game_id", null: false
+    t.integer "rating", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["game_id"], name: "index_reviews_on_game_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -53,5 +64,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_01_190351) do
 
   add_foreign_key "backlog_entries", "games"
   add_foreign_key "backlog_entries", "users"
+  add_foreign_key "reviews", "games"
+  add_foreign_key "reviews", "users"
   add_foreign_key "sessions", "users"
 end
