@@ -77,7 +77,6 @@ GEM
       uri (>= 0.13.1)
     ast (2.4.3)
     base64 (0.3.0)
-    bcrypt (3.1.22)
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.1.0)
     bindex (0.8.1)
@@ -92,22 +91,11 @@ GEM
     concurrent-ruby (1.3.6)
     connection_pool (3.0.2)
     crass (1.0.6)
-    csv (3.3.5)
     date (3.5.1)
     debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    devise (5.0.3)
-      bcrypt (~> 3.0)
-      orm_adapter (~> 0.1)
-      railties (>= 7.0)
-      responders
-      warden (~> 1.2.3)
-    diff-lcs (1.6.2)
     dotenv (3.2.0)
-    dotenv-rails (3.2.0)
-      dotenv (= 3.2.0)
-      railties (>= 6.1)
     drb (2.2.3)
     ed25519 (1.4.0)
     erb (6.0.2)
@@ -125,10 +113,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.3.0)
       activesupport (>= 6.1)
-    httparty (0.24.2)
-      csv
-      mini_mime (>= 1.0.0)
-      multi_xml (>= 0.5.2)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     image_processing (1.14.0)
@@ -179,8 +163,6 @@ GEM
       drb (~> 2.0)
       prism (~> 1.5)
     msgpack (1.8.0)
-    multi_xml (0.8.1)
-      bigdecimal (>= 3.1, < 5)
     net-imap (0.6.3)
       date
       net-protocol
@@ -208,7 +190,6 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.2-x86_64-linux-musl)
       racc (~> 1.4)
-    orm_adapter (0.5.0)
     ostruct (0.6.3)
     parallel (1.27.0)
     parser (3.3.11.1)
@@ -278,33 +259,9 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
-    redis (5.4.1)
-      redis-client (>= 0.22.0)
-    redis-client (0.28.0)
-      connection_pool
     regexp_parser (2.11.3)
     reline (0.6.3)
       io-console (~> 0.5)
-    responders (3.2.0)
-      actionpack (>= 7.0)
-      railties (>= 7.0)
-    rspec-core (3.13.6)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.5)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.8)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-rails (8.0.4)
-      actionpack (>= 7.2)
-      activesupport (>= 7.2)
-      railties (>= 7.2)
-      rspec-core (>= 3.13.0, < 5.0.0)
-      rspec-expectations (>= 3.13.0, < 5.0.0)
-      rspec-mocks (>= 3.13.0, < 5.0.0)
-      rspec-support (>= 3.13.0, < 5.0.0)
-    rspec-support (3.13.7)
     rubocop (1.86.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
@@ -338,12 +295,6 @@ GEM
       ffi (~> 1.12)
       logger
     securerandom (0.4.1)
-    sidekiq (8.1.2)
-      connection_pool (>= 3.0.0)
-      json (>= 2.16.0)
-      logger (>= 1.7.0)
-      rack (>= 3.2.0)
-      redis-client (>= 0.26.0)
     solid_cable (3.0.12)
       actioncable (>= 7.2)
       activejob (>= 7.2)
@@ -386,8 +337,6 @@ GEM
     unicode-emoji (4.2.0)
     uri (1.1.1)
     useragent (0.16.11)
-    warden (1.2.9)
-      rack (>= 2.0.9)
     web-console (4.3.0)
       actionview (>= 8.0.0)
       bindex (>= 0.4.0)
@@ -413,9 +362,6 @@ DEPENDENCIES
   brakeman
   bundler-audit
   debug
-  devise
-  dotenv-rails
-  httparty
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
@@ -424,10 +370,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.1.3)
-  redis
-  rspec-rails
   rubocop-rails-omakase
-  sidekiq
   solid_cable
   solid_cache
   solid_queue
