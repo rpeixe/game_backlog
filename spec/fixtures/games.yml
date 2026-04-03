@@ -1,0 +1,14 @@
+zelda:
+  external_id: "rawg_1"
+  name: "The Legend of Zelda: Breath of the Wild"
+  image_url: "https://example.com/zelda.jpg"
+
+witcher:
+  external_id: "rawg_2"
+  name: "The Witcher 3: Wild Hunt"
+  image_url: "https://example.com/witcher3.jpg"
+
+elden_ring:
+  external_id: "rawg_3"
+  name: "Elden Ring"
+  image_url: "https://example.com/elden_ring.jpg"

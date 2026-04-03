@@ -1,0 +1,14 @@
+one:
+  user: one
+  game: zelda
+  status: to_play
+
+two:
+  user: one
+  game: witcher
+  status: playing
+
+three:
+  user: two
+  game: elden_ring
+  status: finished

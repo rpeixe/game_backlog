@@ -1,0 +1,17 @@
+one:
+  user: one
+  game: zelda
+  rating: 5
+  content: "Amazing game!"
+
+two:
+  user: one
+  game: witcher
+  rating: 4
+  content: "Great story and characters."
+
+three:
+  user: two
+  game: elden_ring
+  rating: 5
+  content: "Challenging but rewarding."
