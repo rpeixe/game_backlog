@@ -6,6 +6,15 @@ class CheapSharkClient
     response = get("/games", query: { title: query })
 
     handle_response(response)
+  rescue Timeout::Error
+    Rails.logger.error("CheapShark timeout")
+    []
+  rescue SocketError
+    Rails.logger.error("Network error when calling CheapShark")
+    []
+  rescue StandardError => e
+    Rails.logger.error("Unexpected API error: #{e.message}")
+    []
   end
 
   def self.handle_response(response)
@@ -14,8 +23,5 @@ class CheapSharkClient
     response.parsed_response.map do |game|
       ExternalGame.new(game)
     end
-  rescue StandardError => e
-    Rails.logger.error("CheapShark API failed: #{e.message}")
-    []
   end
 end
