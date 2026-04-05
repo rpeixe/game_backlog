@@ -31,4 +31,14 @@ RSpec.describe CheapSharkClient do
 
     expect(results).to eq([])
   end
+
+  it "handles timeout gracefully" do
+    stub_request(:get, "https://www.cheapshark.com/api/1.0/games")
+      .with(query: { title: "test" })
+      .to_timeout
+
+    results = CheapSharkClient.search("test")
+
+    expect(results).to eq([])
+  end
 end
