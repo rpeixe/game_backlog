@@ -1,18 +1,33 @@
-<h1>Search Games</h1>
+<h1 class="text-3xl font-bold mb-6">Search Games</h1>
 
-<%= form_with url: games_search_path, method: :get, local: :true do |f| %>
-  <%= f.text_field :query, placeholder: "Search for a game..." %>
-  <%= f.submit "Search" %>
-<% end %>
-
-<% @games.each do |game| %>
-  <div>
-    <h3><%= game.name %></h3>
-
-    <% if game.image_url.present? %>
-      <img src="<%= game.image_url %>" alt="<%= game.name %>'s image" width="150">
-    <% end %>
-
-    <p>Cheapest price: $<%= game.cheapest_price %></p>
+<%= form_with url: games_search_path, method: :get, local: :true, class: "mb-6" do |f| %>
+  <div class="flex gap-2">
+    <%= f.text_field :query, placeholder: "Search for a game...",
+        class: "border rounded px-3 py-2 w-full" %>
+    <%= f.submit "Search",
+        class: "bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" %>
   </div>
 <% end %>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <% @games.each do |game| %>
+    <div class="bg-white rounded shadow p-4">
+      <h3 class="font-semibold mb-2"><%= game.name %></h3>
+
+      <div class="w-full h-48 overflow-hidden rounded mb-2">
+        <% if game.image_url.present? %>
+          <img src="<%= game.image_url %>" class="w-full h-full object-cover"
+          alt="<%= game.name %> thumbnail">
+        <% else %>
+          <div class="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">
+            No image
+          </div>
+        <% end %>
+      </div>
+
+      <p class="text-sm text-gray-600">
+        Cheapest price: $<%= game.cheapest_price %>
+      </p>
+    </div>
+  <% end %>
+</div>
