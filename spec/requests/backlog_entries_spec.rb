@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "BacklogEntries", type: :request do
-  fixtures :users
+  fixtures :users, :backlog_entries
 
   let(:user) { users(:one) }
 
@@ -9,8 +9,16 @@ RSpec.describe "BacklogEntries", type: :request do
     sign_in_as user
   end
 
+  describe "GET /index" do
+    it "returns http success" do
+      get "/backlog_entries"
+
+      expect(response).to have_http_status(:success)
+    end
+  end
+
   describe "POST /" do
-    it "create a backlog entry" do
+    it "creates a backlog entry" do
       expect {
         post "/backlog_entries", params: {
           external_id: "test_1",
@@ -35,6 +43,42 @@ RSpec.describe "BacklogEntries", type: :request do
           name: name,
           image_url: nil
         }
+      }.not_to change(BacklogEntry, :count)
+    end
+  end
+
+  describe "PUT /:id" do
+    it "updates status" do
+      entry = backlog_entries(:one)
+
+      patch "/backlog_entries/#{entry.id}", params: { status: "playing" }
+
+      expect(entry.reload.status).to eq("playing")
+    end
+
+    it "does not update status from another user" do
+      entry = backlog_entries(:three)
+
+      patch "/backlog_entries/#{entry.id}", params: { status: "playing" }
+
+      expect(entry.reload.status).not_to eq("playing")
+    end
+  end
+
+  describe "DELETE /:id" do
+    it "removes entry" do
+      entry = backlog_entries(:one)
+
+      expect {
+        delete "/backlog_entries/#{entry.id}"
+      }.to change(BacklogEntry, :count).by(-1)
+    end
+
+    it "doest not remove entry from another user" do
+      entry = backlog_entries(:three)
+
+      expect {
+        delete "/backlog_entries/#{entry.id}"
       }.not_to change(BacklogEntry, :count)
     end
   end

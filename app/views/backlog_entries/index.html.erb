@@ -1,0 +1,49 @@
+<h1 class="text-3xl font-bold mb-6">My Backlog</h1>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <% @entries.each do |entry| %>
+    <div class="bg-white rounded shadow p-4 flex flex-col">
+      <%# Game name %>
+      <h3 class="font-semibold mb-2"><%= entry.game.name %></h3>
+
+      <%# Image %>
+      <div class="w-full h-48 overflow-hidden rounded mb-2">
+        <% if entry.game.image_url.present? %>
+          <img src="<%= entry.game.image_url %>" alt="<%= entry.game.name %> image"
+               class="w-full h-full object-cover">
+        <% else %>
+          <div class="w-full h-full bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+            No image
+          </div>
+        <% end %>
+      </div>
+
+      <%# Status %>
+      <p class="text-sm mb-2">
+        Status:
+        <span class="font-medium capitalize">
+          <%= entry.status.humanize %>
+        </span>
+      </p>
+
+      <%# Actions %>
+      <div class="mt-auto flex flex-col gap-2">
+        <%# Status buttons %>
+        <div class="flex gap-2 flex-wrap">
+          <% BacklogEntry.statuses.keys.each do |status| %>
+            <%= button_to status.humanize,
+                backlog_entry_path(entry, status: status),
+                method: :patch,
+                class: "text-xs px-2 py-1 rounded border hover:bg-gray-100" %>
+          <% end %>
+        </div>
+
+        <%# Remove %>
+        <%= button_to "Remove",
+            backlog_entry_path(entry),
+            method: :delete,
+            class: "bg-red-500 text-white px-2 py-1 rounded text-sm hover:bg-red-600" %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "games/search"
 
-  resources :backlog_entries, only: [ :create, :update, :destroy ]
+  resources :backlog_entries, only: [ :index, :create, :update, :destroy ]
 
   resource :session
   resources :passwords, param: :token
