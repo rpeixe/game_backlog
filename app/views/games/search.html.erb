@@ -28,6 +28,20 @@
       <p class="text-sm text-gray-600">
         Cheapest price: $<%= game.cheapest_price %>
       </p>
+
+      <% if authenticated? && Current.user.games.exists?(external_id: game.external_id) %>
+        <%# <span class="text-gray-500">Already added</span> %>
+        <button class="mt-2 border-gray-500 text-gray-500 px-3 py-1 border rounded" disabled>Already added</span>
+      <% else %>
+        <%= button_to "Add to backlog",
+          backlog_entries_path(
+            external_id: game.external_id,
+            name: game.name,
+            image_url: game.image_url
+          ),
+          method: :post,
+          class: "mt-2 bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600" %>
+      <% end %>
     </div>
   <% end %>
 </div>
