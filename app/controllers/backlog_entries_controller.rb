@@ -1,6 +1,9 @@
 class BacklogEntriesController < ApplicationController
   def index
     @entries = Current.user.backlog_entries.includes(:game)
+    @entries.each do |entry|
+      UpdateGamePriceJob.perform_later(entry.game.id)
+    end
   end
 
   def create
@@ -9,7 +12,6 @@ class BacklogEntriesController < ApplicationController
       game.image_url = params[:image_url]
     end
 
-    UpdateGamePriceJob.perform_later(game.id)
     entry = Current.user.backlog_entries.build(game: game)
 
     if entry.save
