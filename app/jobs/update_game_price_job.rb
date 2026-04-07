@@ -12,7 +12,10 @@ class UpdateGamePriceJob < ApplicationJob
       .map { |deal| deal["price"].to_f }
       .min
 
-    game.update(cheapest_price: cheapest_price)
+    game.update(
+      cheapest_price: cheapest_price,
+      last_price_update: Time.current
+    )
   rescue StandardError => e
     Rails.logger.error("Price update failed: #{e.message}")
   end

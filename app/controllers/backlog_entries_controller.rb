@@ -1,8 +1,11 @@
 class BacklogEntriesController < ApplicationController
   def index
     @entries = Current.user.backlog_entries.includes(:game)
+
     @entries.each do |entry|
-      UpdateGamePriceJob.perform_later(entry.game.id)
+      if entry.game.last_price_update.nil? || entry.game.last_price_update < 6.hours.ago
+        UpdateGamePriceJob.perform_later(entry.game.id)
+      end
     end
   end
 
