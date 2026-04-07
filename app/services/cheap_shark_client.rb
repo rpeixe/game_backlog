@@ -24,4 +24,15 @@ class CheapSharkClient
       ExternalGame.new(game)
     end
   end
+
+  def self.find_game(external_id)
+    response = get("/games", query: { id: external_id })
+
+    return nil unless response.success?
+
+    response.parsed_response
+  rescue StandardError => e
+    Rails.logger.error("CheapShark lookup failed: #{e.message}")
+    nil
+  end
 end
