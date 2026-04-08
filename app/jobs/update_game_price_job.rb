@@ -16,6 +16,11 @@ class UpdateGamePriceJob < ApplicationJob
       cheapest_price: cheapest_price,
       last_price_update: Time.current
     )
+
+    ActionCable.server.broadcast("prices", {
+      game_id: game.id,
+      price: cheapest_price
+    })
   rescue StandardError => e
     Rails.logger.error("Price update failed: #{e.message}")
   end
