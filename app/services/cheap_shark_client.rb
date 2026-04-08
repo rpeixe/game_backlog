@@ -3,36 +3,42 @@ class CheapSharkClient
   base_uri "https://www.cheapshark.com/api/1.0"
 
   def self.search(query)
-    response = get("/games", query: { title: query })
+    Rails.cache.fetch("cheapshark/search/#{query}", expires_in: 1.hour) do
+      response = get("/games", query: { title: query })
 
-    handle_response(response)
+      return [] unless response.success?
+
+      response.parsed_response.map do |data|
+        ExternalGame.new(data)
+      end
+    end
   rescue Timeout::Error
-    Rails.logger.error("CheapShark timeout")
+    Rails.logger.error("(Search) CheapShark timeout")
     []
   rescue SocketError
-    Rails.logger.error("Network error when calling CheapShark")
+    Rails.logger.error("(Search) Network error when calling CheapShark")
     []
   rescue StandardError => e
-    Rails.logger.error("Unexpected API error: #{e.message}")
+    Rails.logger.error("(Search) Unexpected API error: #{e.message}")
     []
-  end
-
-  def self.handle_response(response)
-    return [] unless response.success?
-
-    response.parsed_response.map do |game|
-      ExternalGame.new(game)
-    end
   end
 
   def self.find_game(external_id)
-    response = get("/games", query: { id: external_id })
+    Rails.cache.fetch("cheapshark/game/#{external_id}", expires_in: 6.hours) do
+      response = get("/games", query: { id: external_id })
 
-    return nil unless response.success?
+      return nil unless response.success?
 
-    response.parsed_response
+      response.parsed_response
+    end
+  rescue Timeout::Error
+    Rails.logger.error("(Lookup) CheapShark timeout")
+    nil
+  rescue SocketError
+    Rails.logger.error("(Lookup) Network error when calling CheapShark")
+    nil
   rescue StandardError => e
-    Rails.logger.error("CheapShark lookup failed: #{e.message}")
+    Rails.logger.error("(Lookup) Unexpected API error: #{e.message}")
     nil
   end
 end
