@@ -6,6 +6,15 @@ class Game < ApplicationRecord
   validates :external_id, presence: true, uniqueness: true
   validates :name, presence: true
 
+  scope :unused, -> {
+    left_joins(:backlog_entries)
+      .where(backlog_entries: { id: nil })
+  }
+
+  scope :stale_unused, -> {
+    unused.where("games.created_at < ?", 7.days.ago)
+  }
+
   def deal_url
     return nil unless deal_id
 

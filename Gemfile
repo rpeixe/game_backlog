@@ -20,6 +20,8 @@ gem "jbuilder"
 gem "tailwindcss-rails"
 # Use Sidekiq for background jobs
 gem "sidekiq"
+# Use cron for scheduling jobs
+gem "sidekiq-cron"
 # Use Redis for caching
 gem "redis"
 
