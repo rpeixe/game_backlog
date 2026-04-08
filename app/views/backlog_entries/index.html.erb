@@ -2,7 +2,7 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
   <% @entries.each do |entry| %>
-    <div class="bg-white rounded shadow p-4 flex flex-col">
+    <div id="game-<%= entry.game.id %>" class="bg-white rounded shadow p-4 flex flex-col">
       <%# Game name %>
       <h3 class="font-semibold mb-2"><%= entry.game.name %></h3>
 
@@ -18,12 +18,28 @@
         <% end %>
       </div>
 
-      <p class="text-sm text-gray-600">
-        Cheapest current price: 
-        <span data-game-id="<%= entry.game.id %>">
-          $<%= entry.game.cheapest_price || "N/A" %>
-        </span>
-      </p>
+      <%# Best deal %>
+      <div data-deal="<%= entry.game.id %>">
+        <% store = @stores[entry.game.store_id] %>
+        <% if entry.game.deal_url && store %>
+          <%= link_to entry.game.deal_url,
+              target: "_blank",
+              class: "mt-2 inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 hover:underline transition" do %>
+            <span class="text-gray-700">Best deal:</span>
+            <span class="font-semibold text-green-600">$<%= entry.game.cheapest_price %></span>
+            <span class="text-gray-500">on</span>
+            <img src="https://www.cheapshark.com<%= store["images"]["logo"] %>"
+              alt="<%= store["storeName"] %> logo"
+              class="w-4 h-4">
+            <span><%= store["storeName"] %></span>
+            <span>→</span>
+          <% end %>
+        <% else %>
+          <p class="mt-2 text-xs text-gray-700">
+            No deal data available.
+          </p>
+        <% end %>
+      </div>
 
       <%# Status %>
       <p class="text-sm mb-2">

@@ -41,4 +41,27 @@ class CheapSharkClient
     Rails.logger.error("(Lookup) Unexpected API error: #{e.message}")
     nil
   end
+
+  def self.stores
+    Rails.cache.fetch("cheapshark/stores", expires_in: 7.days) do
+      response = get("/stores")
+
+      return [] unless response.success?
+
+      response.parsed_response
+    end
+  rescue Timeout::Error
+    Rails.logger.error("(Stores) CheapShark timeout")
+    nil
+  rescue SocketError
+    Rails.logger.error("(Stores) Network error when calling CheapShark")
+    nil
+  rescue StandardError => e
+    Rails.logger.error("(Stores) Unexpected API error: #{e.message}")
+    nil
+  end
+
+  def self.stores_by_id
+    stores.index_by { |store| store["storeID"] }
+  end
 end

@@ -1,6 +1,7 @@
 class BacklogEntriesController < ApplicationController
   def index
     @entries = Current.user.backlog_entries.includes(:game)
+    @stores = CheapSharkClient.stores_by_id
 
     @entries.each do |entry|
       if entry.game.last_price_update.nil? || entry.game.last_price_update < 6.hours.ago
