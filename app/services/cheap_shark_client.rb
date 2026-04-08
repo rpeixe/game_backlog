@@ -52,13 +52,13 @@ class CheapSharkClient
     end
   rescue Timeout::Error
     Rails.logger.error("(Stores) CheapShark timeout")
-    nil
+    []
   rescue SocketError
     Rails.logger.error("(Stores) Network error when calling CheapShark")
-    nil
+    []
   rescue StandardError => e
     Rails.logger.error("(Stores) Unexpected API error: #{e.message}")
-    nil
+    []
   end
 
   def self.stores_by_id

@@ -11,6 +11,13 @@ RSpec.describe "BacklogEntries", type: :request do
 
   describe "GET /index" do
     it "returns http success" do
+      stub_request(:get, /cheapshark/)
+        .to_return(
+          status: 200,
+          body: [ {} ].to_json,
+          headers: { "Content-Type" => "application/json" }
+        )
+
       get "/backlog_entries"
 
       expect(response).to have_http_status(:success)
