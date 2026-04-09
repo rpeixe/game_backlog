@@ -136,6 +136,7 @@ Testing includes:
 
 ## 📈 Future Improvements
 
+* Add game reviews
 * Price history tracking and charts
 * Price drop notifications
 * Filtering by store
