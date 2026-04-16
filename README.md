@@ -63,7 +63,7 @@ redis-server
 Then start the app:
 
 ```bash
-bin/dev
+rails server
 ```
 
 And in another terminal:
