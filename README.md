@@ -50,7 +50,6 @@ bundle install
 ```bash
 rails db:create
 rails db:migrate
-rails db:seed
 ```
 
 ### 4. Start services
